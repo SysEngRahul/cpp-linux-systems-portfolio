@@ -1,0 +1,28 @@
+name: Telemetry Engine CI
+
+on:
+  push:
+    paths:
+      - "telemetry-engine/**"
+      - ".github/workflows/telemetry-engine-ci.yml"
+  pull_request:
+    paths:
+      - "telemetry-engine/**"
+      - ".github/workflows/telemetry-engine-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker-build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t telemetry-engine-ci ./telemetry-engine
+
+      - name: Run test suite in Docker
+        run: docker run --rm telemetry-engine-ci
