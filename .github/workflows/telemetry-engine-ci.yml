@@ -16,10 +16,11 @@ permissions:
 
 jobs:
   docker-build-and-test:
-    runs-on: ubuntu-latest
+    # Pin the OS to avoid ubuntu-latest silently migrating to another Ubuntu release.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Build Docker image
         run: docker build -t telemetry-engine-ci ./telemetry-engine
